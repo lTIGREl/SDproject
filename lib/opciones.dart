@@ -86,7 +86,7 @@ class OptionPage extends StatelessWidget {
               context, Icons.supervised_user_circle, "Profile", "logout")
         ]),
         TableRow(children: [
-          _crearBoton(context, Icons.edit, "Edit posts", "navigation"),
+          _crearBoton(context, Icons.edit, "Edit posts", "map"),
           _crearBoton(context, Icons.file_upload, "Add post", "upload")
         ])
       ],

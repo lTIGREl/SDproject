@@ -1,6 +1,7 @@
 import 'package:SmartSolutions/homepage.dart';
 import 'package:SmartSolutions/logoutpage.dart';
 import 'package:SmartSolutions/mainpage.dart';
+import 'package:SmartSolutions/mapapage.dart';
 import 'package:SmartSolutions/opciones.dart';
 import 'package:SmartSolutions/photoupload.dart';
 import 'package:SmartSolutions/postPage.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         'navigation': (BuildContext context) => HomePage(),
         'logout': (BuildContext context) => LogoutPage(),
         'upload': (BuildContext context) => PhotoUpload(),
+        'map': (BuildContext context) => MapPage(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

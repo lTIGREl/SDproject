@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:SmartSolutions/loginpage.dart';
 import 'package:SmartSolutions/usuario.dart';
 
 class LogoutPage extends StatefulWidget {
