@@ -1,3 +1,8 @@
+import 'package:SmartSolutions/homepage.dart';
+import 'package:SmartSolutions/logoutpage.dart';
+import 'package:SmartSolutions/mainpage.dart';
+import 'package:SmartSolutions/opciones.dart';
+import 'package:SmartSolutions/photoupload.dart';
 import 'package:SmartSolutions/postPage.dart';
 import 'package:flutter/material.dart';
 import 'package:SmartSolutions/loginpage.dart';
@@ -10,10 +15,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Login',
-      initialRoute: 'post',
+      initialRoute: 'main',
       routes: {
         'login': (BuildContext context) => LoginPage(),
-        'post': (BuildContext context) => PostPage()
+        'post': (BuildContext context) => PostPage(),
+        'main': (BuildContext context) => MainPage(),
+        'options': (BuildContext context) => OptionPage(),
+        'navigation': (BuildContext context) => HomePage(),
+        'logout': (BuildContext context) => LogoutPage(),
+        'upload': (BuildContext context) => PhotoUpload(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

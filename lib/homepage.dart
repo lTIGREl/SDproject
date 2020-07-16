@@ -1,9 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:SmartSolutions/logoutpage.dart';
-import 'package:SmartSolutions/photoupload.dart';
 import 'package:SmartSolutions/post.dart';
-import 'package:SmartSolutions/usuario.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -33,70 +30,40 @@ class _HomePageState extends State<HomePage> {
             data[postKey]['username']);
         postlist.add(post);
       }
-      setState(() {
-        print(postlist.length);
-      });
+      setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Smart Solutions"),
-          actions: <Widget>[
-            IconButton(
-              icon: Image.network(Usuario.user.photoUrl),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return LogoutPage();
-                }));
-              },
-              color: Colors.white,
-            ),
-          ],
+      appBar: AppBar(
+        title: Text("Smart Solutions"),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Colors.blue[100], Colors.blue[400]],
+          ),
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Colors.blue[100], Colors.blue[400]],
-            ),
-          ),
-          child: postlist.length == 0
-              ? Text("No data found")
-              : ListView.builder(
-                  itemCount: postlist.length,
-                  itemBuilder: (_, index) {
-                    return postUI(
-                        postlist[index].image,
-                        postlist[index].description,
-                        postlist[index].date,
-                        postlist[index].time,
-                        postlist[index].photo,
-                        postlist[index].username);
-                  },
-                ),
-        ), //posts
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.lightBlueAccent,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.add_a_photo),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return PhotoUpload();
-                  }));
+        child: postlist.length == 0
+            ? Text("No data found")
+            : ListView.builder(
+                itemCount: postlist.length,
+                itemBuilder: (_, index) {
+                  return postUI(
+                      postlist[index].image,
+                      postlist[index].description,
+                      postlist[index].date,
+                      postlist[index].time,
+                      postlist[index].photo,
+                      postlist[index].username);
                 },
-                color: Colors.white,
-              )
-            ],
-          ),
-        ));
+              ),
+      ), //posts
+    );
   }
 
   Widget postUI(String image, String description, String date, String time,

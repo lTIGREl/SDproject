@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:SmartSolutions/homepage.dart';
 import 'package:SmartSolutions/usuario.dart';
 
 class LoginPage extends StatefulWidget {
@@ -22,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 200),
-              _signInButton(),
+              _signInButton(context),
             ],
           ),
         ),
@@ -30,18 +29,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _signInButton() {
+  Widget _signInButton(BuildContext context) {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
         Usuario.handleSignIn().whenComplete(() {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return HomePage();
-              },
-            ),
-          );
+          Navigator.pushNamed(context, "options");
         });
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),

@@ -67,11 +67,8 @@ class _LogoutPageState extends State<LogoutPage> {
               SizedBox(height: 40),
               RaisedButton(
                 onPressed: () {
-                  Usuario.gooleSignout();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) {
-                    return LoginPage();
-                  }), ModalRoute.withName('/'));
+                  Usuario.gooleSignout().whenComplete(
+                      () => {Navigator.pushNamed(context, "login")});
                 },
                 color: Colors.deepPurple,
                 child: Padding(
