@@ -1,2 +1,0 @@
-# SDproject
-ProyectoSD
