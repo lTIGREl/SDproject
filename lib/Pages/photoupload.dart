@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:SmartSolutions/homepage.dart';
-import 'package:SmartSolutions/usuario.dart';
+import 'package:SmartSolutions/Pages/homepage.dart';
+import 'package:SmartSolutions/Models/usuario.dart';
 
 class PhotoUpload extends StatefulWidget {
   PhotoUpload();

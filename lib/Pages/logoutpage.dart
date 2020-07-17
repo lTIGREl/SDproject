@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:SmartSolutions/usuario.dart';
+import 'package:SmartSolutions/Models/usuario.dart';
 
 class LogoutPage extends StatefulWidget {
   @override

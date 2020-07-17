@@ -1,10 +1,10 @@
-import 'package:SmartSolutions/homepage.dart';
-import 'package:SmartSolutions/logoutpage.dart';
-import 'package:SmartSolutions/mainpage.dart';
-import 'package:SmartSolutions/mapapage.dart';
-import 'package:SmartSolutions/opciones.dart';
-import 'package:SmartSolutions/photoupload.dart';
-import 'package:SmartSolutions/postPage.dart';
+import 'package:SmartSolutions/Pages/homepage.dart';
+import 'package:SmartSolutions/Pages/logoutpage.dart';
+import 'package:SmartSolutions/Pages/mainpage.dart';
+import 'package:SmartSolutions/Pages/mapapage.dart';
+import 'package:SmartSolutions/Pages/opciones.dart';
+import 'package:SmartSolutions/Pages/photoupload.dart';
+import 'package:SmartSolutions/Pages/postPage.dart';
 import 'package:flutter/material.dart';
 import 'package:SmartSolutions/loginpage.dart';
 
