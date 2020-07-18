@@ -6,7 +6,7 @@ import 'package:SmartSolutions/Pages/opciones.dart';
 import 'package:SmartSolutions/Pages/photoupload.dart';
 import 'package:SmartSolutions/Pages/postPage.dart';
 import 'package:flutter/material.dart';
-import 'package:SmartSolutions/loginpage.dart';
+import 'package:SmartSolutions/Pages/loginpage.dart';
 
 void main() => runApp(MyApp());
 

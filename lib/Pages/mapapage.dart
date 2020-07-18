@@ -11,32 +11,34 @@ class _MapPageState extends State<MapPage> {
   MapController mapController = MapController();
   @override
   Widget build(BuildContext context) {
+    List args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.my_location),
               onPressed: () {
-                mapController.move(LatLng(-2.903785, -79.007530), 15.0);
+                mapController.move(
+                    LatLng(double.parse(args[0]), double.parse(args[1])), 15.0);
               })
         ],
         backgroundColor: Colors.pinkAccent,
         title: Text("Location"),
       ),
       body: Center(
-        child: _createMap(),
+        child: _createMap(args),
       ),
     );
   }
 
-  Widget _createMap() {
+  Widget _createMap(List args) {
     return FlutterMap(
       mapController: mapController,
       options: new MapOptions(
-        center: LatLng(-2.903785, -79.007530),
+        center: LatLng(double.parse(args[0]), double.parse(args[1])),
         zoom: 15.0,
       ),
-      layers: [_crearMapa(), _crearMarcadores()],
+      layers: [_crearMapa(), _crearMarcadores(args)],
     );
   }
 
@@ -50,12 +52,12 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  _crearMarcadores() {
+  _crearMarcadores(List args) {
     return MarkerLayerOptions(markers: <Marker>[
       Marker(
           width: 100.0,
           height: 100.0,
-          point: LatLng(-2.903785, -79.007530),
+          point: LatLng(double.parse(args[0]), double.parse(args[1])),
           builder: (context) => Container(
                 child: Icon(
                   Icons.location_on,

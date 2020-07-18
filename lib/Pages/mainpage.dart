@@ -1,4 +1,4 @@
-import 'package:SmartSolutions/loginpage.dart';
+import 'package:SmartSolutions/Pages/loginpage.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatelessWidget {

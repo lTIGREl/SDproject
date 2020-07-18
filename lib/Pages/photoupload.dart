@@ -1,3 +1,4 @@
+import 'package:SmartSolutions/Models/obtainlocation.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -143,23 +144,29 @@ class _PhotoUploadState extends State<PhotoUpload> {
           postImageRef.child(time.toString() + "jpg").putFile(sampleImage);
       var imageUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
       url = imageUrl.toString();
-      print(url);
       //guardar el post en firebase database: realtime
-      saveToDatabase(url);
+      obtainLocation().whenComplete(() async {
+        List loc = await obtainLocation();
+        saveToDatabase(url, loc);
+        Navigator.pop(context);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
+          return HomePage();
+        }));
+      });
       //regreso a home
-      Navigator.pop(context);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return HomePage();
-      }));
+
     }
   }
 
-  void saveToDatabase(String url) {
+  void saveToDatabase(String url, List loc) {
     var timeDB = DateTime.now();
     var dateFormat = DateFormat('MMM d, yyyy');
     var timeFormat = DateFormat('EEEE, hh:mm aaa');
     String date = dateFormat.format(timeDB);
     String time = timeFormat.format(timeDB);
+    String lat = loc[0];
+    String long = loc[1];
 
     DatabaseReference ref = FirebaseDatabase.instance.reference();
     var data = {
@@ -168,7 +175,9 @@ class _PhotoUploadState extends State<PhotoUpload> {
       "date": date,
       "time": time,
       "photo": Usuario.user.photoUrl,
-      "username": Usuario.user.displayName
+      "username": Usuario.user.displayName,
+      "lat": lat,
+      "long": long
     };
     ref.child("Posts").push().set(data);
   }

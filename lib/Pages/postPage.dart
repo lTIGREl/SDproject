@@ -5,21 +5,23 @@ class PostPage extends StatelessWidget {
   final subtitlestyle = TextStyle(fontSize: 18.0, color: Colors.grey);
   @override
   Widget build(BuildContext context) {
+    final List<String> args = ModalRoute.of(context).settings.arguments;
+    final image = args[0];
+    final description = args[1];
+    final date = args[2];
+    final time = args[3];
+    final photo = args[4];
+    final username = args[5];
+    final lat = args[7];
+    final long = args[8];
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Image(
-              image: NetworkImage(
-                  'https://www.tom-archer.com/wp-content/uploads/2018/06/milford-sound-night-fine-art-photography-new-zealand.jpg')),
+          Image(image: NetworkImage(image)),
           _crearDatos(),
-          _crearAcciones(),
-          _crearDescripcion(),
-          _crearDescripcion(),
-          _crearDescripcion(),
-          _crearDescripcion(),
-          _crearDescripcion(),
-          _crearDescripcion()
+          _crearAcciones(context, lat, long),
+          _crearDescripcion(description),
         ],
       ),
     ));
@@ -63,41 +65,49 @@ class PostPage extends StatelessWidget {
     );
   }
 
-  Widget _crearAcciones() {
+  Widget _crearAcciones(BuildContext context, String lat, String long) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _columnaBotones(Icons.call, 'Call'),
-        _columnaBotones(Icons.insert_comment, 'Comment'),
-        _columnaBotones(Icons.plus_one, 'Like'),
+        _columnaBotones(
+            context, Icons.location_on, 'Location', lat, long, 'map'),
+        _columnaBotones(
+            context, Icons.insert_comment, 'Comment', lat, long, 'map'),
+        _columnaBotones(context, Icons.plus_one, 'Like', lat, long, 'map'),
       ],
     );
   }
 
-  Widget _columnaBotones(IconData icon, String detail) {
-    return Column(
-      children: <Widget>[
-        Icon(
-          icon,
-          color: Colors.blue,
-        ),
-        SizedBox(
-          height: 7.0,
-        ),
-        Text(
-          detail,
-          style: TextStyle(fontSize: 15.0, color: Colors.blue),
-        )
-      ],
+  Widget _columnaBotones(BuildContext context, IconData icon, String detail,
+      String lat, String long, String dir) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, dir, arguments: [lat, long]);
+      },
+      child: Column(
+        children: <Widget>[
+          Icon(
+            icon,
+            color: Colors.blue,
+          ),
+          SizedBox(
+            height: 7.0,
+          ),
+          Text(
+            detail,
+            style: TextStyle(fontSize: 15.0, color: Colors.blue),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _crearDescripcion() {
+  Widget _crearDescripcion(String description) {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
         child: Text(
-          'aqui va la descripcion del problema que se está presentando en la pestaña, efectivamente debe ser un texto amplio para poder visualizarlo.',
+          description,
           textAlign: TextAlign.justify,
         ),
       ),

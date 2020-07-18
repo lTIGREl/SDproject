@@ -22,12 +22,15 @@ class _HomePageState extends State<HomePage> {
 
       for (var postKey in keys) {
         Posts post = Posts(
-            data[postKey]['image'],
-            data[postKey]['description'],
-            data[postKey]['date'],
-            data[postKey]['time'],
-            data[postKey]['photo'],
-            data[postKey]['username']);
+          data[postKey]['image'],
+          data[postKey]['description'],
+          data[postKey]['date'],
+          data[postKey]['time'],
+          data[postKey]['photo'],
+          data[postKey]['username'],
+          data[postKey]['lat'],
+          data[postKey]['long'],
+        );
         postlist.add(post);
       }
       setState(() {});
@@ -59,7 +62,9 @@ class _HomePageState extends State<HomePage> {
                       postlist[index].date,
                       postlist[index].time,
                       postlist[index].photo,
-                      postlist[index].username);
+                      postlist[index].username,
+                      postlist[index].lat,
+                      postlist[index].long);
                 },
               ),
       ), //posts
@@ -67,60 +72,76 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget postUI(String image, String description, String date, String time,
-      String photo, String username) {
-    return Card(
-      elevation: 10.0,
-      margin: EdgeInsets.all(14.0),
-      child: Container(
-        padding: EdgeInsets.all(14.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  date,
-                  style: Theme.of(context).textTheme.subtitle1,
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  username,
-                  style: Theme.of(context).textTheme.subtitle1,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  time,
-                  style: Theme.of(context).textTheme.subtitle1,
-                  textAlign: TextAlign.center,
-                ),
-                Image.network(
-                  photo,
-                  width: 50.0,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Image.network(image, fit: BoxFit.cover),
-            SizedBox(
-              height: 10.0,
-            ),
-            Text(
-              description,
-              style: Theme.of(context).textTheme.subtitle1,
-              textAlign: TextAlign.center,
-            ),
-          ],
+      String photo, String username, String lat, String long) {
+    return GestureDetector(
+      onTap: () {
+        List<String> lista = [
+          image,
+          description,
+          date,
+          date,
+          time,
+          photo,
+          username,
+          lat,
+          long
+        ];
+        Navigator.pushNamed(context, 'post', arguments: lista);
+      },
+      child: Card(
+        elevation: 10.0,
+        margin: EdgeInsets.all(14.0),
+        child: Container(
+          padding: EdgeInsets.all(14.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    date,
+                    style: Theme.of(context).textTheme.subtitle1,
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    username,
+                    style: Theme.of(context).textTheme.subtitle1,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    time,
+                    style: Theme.of(context).textTheme.subtitle1,
+                    textAlign: TextAlign.center,
+                  ),
+                  Image.network(
+                    photo,
+                    width: 50.0,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Image.network(image, fit: BoxFit.cover),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                description,
+                style: Theme.of(context).textTheme.subtitle1,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
