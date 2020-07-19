@@ -22,15 +22,17 @@ class _HomePageState extends State<HomePage> {
 
       for (var postKey in keys) {
         Posts post = Posts(
-          data[postKey]['image'],
-          data[postKey]['description'],
-          data[postKey]['date'],
-          data[postKey]['time'],
-          data[postKey]['photo'],
-          data[postKey]['username'],
-          data[postKey]['lat'],
-          data[postKey]['long'],
-        );
+            data[postKey]['image'],
+            data[postKey]['description'],
+            data[postKey]['date'],
+            data[postKey]['time'],
+            data[postKey]['photo'],
+            data[postKey]['username'],
+            data[postKey]['lat'],
+            data[postKey]['long'],
+            data[postKey]['title'],
+            data[postKey]['likes'],
+            data[postKey]['idref']);
         postlist.add(post);
       }
       setState(() {});
@@ -64,18 +66,31 @@ class _HomePageState extends State<HomePage> {
                       postlist[index].photo,
                       postlist[index].username,
                       postlist[index].lat,
-                      postlist[index].long);
+                      postlist[index].long,
+                      postlist[index].title,
+                      postlist[index].likes,
+                      postlist[index].idref);
                 },
               ),
       ), //posts
     );
   }
 
-  Widget postUI(String image, String description, String date, String time,
-      String photo, String username, String lat, String long) {
+  Widget postUI(
+      String image,
+      String description,
+      String date,
+      String time,
+      String photo,
+      String username,
+      String lat,
+      String long,
+      String title,
+      int likes,
+      String idref) {
     return GestureDetector(
       onTap: () {
-        List<String> lista = [
+        List lista = [
           image,
           description,
           date,
@@ -84,7 +99,10 @@ class _HomePageState extends State<HomePage> {
           photo,
           username,
           lat,
-          long
+          long,
+          title,
+          likes,
+          idref
         ];
         Navigator.pushNamed(context, 'post', arguments: lista);
       },
@@ -136,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                 height: 10.0,
               ),
               Text(
-                description,
+                title,
                 style: Theme.of(context).textTheme.subtitle1,
                 textAlign: TextAlign.center,
               ),

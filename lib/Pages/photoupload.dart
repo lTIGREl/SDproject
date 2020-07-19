@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:SmartSolutions/Pages/homepage.dart';
 import 'package:SmartSolutions/Models/usuario.dart';
 
 class PhotoUpload extends StatefulWidget {
@@ -17,6 +16,7 @@ class PhotoUpload extends StatefulWidget {
 class _PhotoUploadState extends State<PhotoUpload> {
   File sampleImage;
   final formKey = GlobalKey<FormState>();
+  String _title;
   String _description;
   String url;
   @override
@@ -89,6 +89,15 @@ class _PhotoUploadState extends State<PhotoUpload> {
             key: formKey,
             child: Column(
               children: <Widget>[
+                TextFormField(
+                  decoration: InputDecoration(labelText: "Title"),
+                  validator: (val) {
+                    return val.isEmpty ? 'Title required' : null;
+                  },
+                  onSaved: (val) {
+                    return _title = val;
+                  },
+                ),
                 Image.file(
                   sampleImage,
                   height: 300.0,
@@ -148,15 +157,9 @@ class _PhotoUploadState extends State<PhotoUpload> {
       obtainLocation().whenComplete(() async {
         List loc = await obtainLocation();
         saveToDatabase(url, loc);
+        //regreso a home
         Navigator.pop(context);
-        // Navigator.pushReplacement(context,
-        //     MaterialPageRoute(builder: (context) {
-        //   return HomePage();
-        // }));
-        Navigator.pushNamed(context, 'navigation');
       });
-      //regreso a home
-
     }
   }
 
@@ -170,6 +173,7 @@ class _PhotoUploadState extends State<PhotoUpload> {
     String long = loc[1];
 
     DatabaseReference ref = FirebaseDatabase.instance.reference();
+    var idref = ref.child("Posts").push();
     var data = {
       "image": url,
       "description": _description,
@@ -178,8 +182,11 @@ class _PhotoUploadState extends State<PhotoUpload> {
       "photo": Usuario.user.photoUrl,
       "username": Usuario.user.displayName,
       "lat": lat,
-      "long": long
+      "long": long,
+      'title': _title,
+      'likes': 0,
+      'idref': idref.key
     };
-    ref.child("Posts").push().set(data);
+    idref.set(data);
   }
 }

@@ -1,33 +1,60 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class PostPage extends StatelessWidget {
+class PostPage extends StatefulWidget {
+  @override
+  _PostPageState createState() => _PostPageState();
+}
+
+class _PostPageState extends State<PostPage> {
   final titlestyle = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
+
   final subtitlestyle = TextStyle(fontSize: 18.0, color: Colors.grey);
+  int likesG;
+
   @override
   Widget build(BuildContext context) {
-    final List<String> args = ModalRoute.of(context).settings.arguments;
+    final List args = ModalRoute.of(context).settings.arguments;
     final image = args[0];
     final description = args[1];
     final date = args[2];
-    final time = args[3];
-    final photo = args[4];
-    final username = args[5];
+    final time = args[4];
+    final photo = args[5];
+    final username = args[6];
     final lat = args[7];
     final long = args[8];
+    final title = args[9];
+    likesG = args[10];
+    final idref = args[11];
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Image(image: NetworkImage(image)),
-          _crearDatos(),
-          _crearAcciones(context, lat, long),
-          _crearDescripcion(description),
-        ],
+        body: SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Image(image: NetworkImage(image)),
+            SizedBox(
+              height: 10.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  username,
+                  style: titlestyle,
+                ),
+                Image.network(photo, width: 50.0),
+              ],
+            ),
+            _crearDatos(title, date, time, likesG),
+            _crearAcciones(context, lat, long, idref, likesG),
+            _crearDescripcion(description),
+          ],
+        ),
       ),
     ));
   }
 
-  Widget _crearDatos() {
+  Widget _crearDatos(String title, String date, String time, int likes) {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
@@ -38,14 +65,14 @@ class PostPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Title about the problem',
+                    title,
                     style: titlestyle,
                   ),
                   SizedBox(
                     height: 7.0,
                   ),
                   Text(
-                    'Problem publication´s date',
+                    date + ' ' + time,
                     style: subtitlestyle,
                   )
                 ],
@@ -56,7 +83,7 @@ class PostPage extends StatelessWidget {
               color: Colors.red,
             ),
             Text(
-              '42',
+              likes.toString(),
               style: TextStyle(fontSize: 20.0),
             )
           ],
@@ -65,24 +92,37 @@ class PostPage extends StatelessWidget {
     );
   }
 
-  Widget _crearAcciones(BuildContext context, String lat, String long) {
+  Widget _crearAcciones(
+      BuildContext context, String lat, String long, String idref, int likes) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         _columnaBotones(
-            context, Icons.location_on, 'Location', lat, long, 'map'),
+            context, Icons.location_on, 'Location', lat, long, 'map', '', 0),
         _columnaBotones(
-            context, Icons.insert_comment, 'Comment', lat, long, 'map'),
-        _columnaBotones(context, Icons.plus_one, 'Like', lat, long, 'map'),
+            context, Icons.insert_comment, 'Comment', lat, long, 'map', '', 0),
+        _columnaBotones(
+            context, Icons.plus_one, 'Like', lat, long, 'like', idref, likes)
       ],
     );
   }
 
   Widget _columnaBotones(BuildContext context, IconData icon, String detail,
-      String lat, String long, String dir) {
+      String lat, String long, String dir, String idref, int likes) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, dir, arguments: [lat, long]);
+        if (dir == 'map') {
+          Navigator.pushNamed(context, dir, arguments: [lat, long]);
+        } else {
+          if (dir == 'like') {
+            FirebaseDatabase.instance
+                .reference()
+                .child("Posts")
+                .child(idref)
+                .update({"likes": likes + 1});
+            likesG += 1;
+          }
+        }
       },
       child: Column(
         children: <Widget>[
