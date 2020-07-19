@@ -15,7 +15,7 @@ class _LogoutPageState extends State<LogoutPage> {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.blue[100], Colors.blue[400]],
+            colors: [Colors.pinkAccent, Colors.grey],
           ),
         ),
         child: Center(
@@ -26,7 +26,6 @@ class _LogoutPageState extends State<LogoutPage> {
               CircleAvatar(
                 backgroundImage: NetworkImage(
                   Usuario.user.photoUrl,
-                  //imageUrl,
                 ),
                 radius: 60,
                 backgroundColor: Colors.transparent,
@@ -44,7 +43,7 @@ class _LogoutPageState extends State<LogoutPage> {
                 //name,
                 style: TextStyle(
                     fontSize: 25,
-                    color: Colors.deepPurple,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
@@ -60,7 +59,7 @@ class _LogoutPageState extends State<LogoutPage> {
                 //email,
                 style: TextStyle(
                     fontSize: 25,
-                    color: Colors.deepPurple,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 40),
@@ -68,10 +67,10 @@ class _LogoutPageState extends State<LogoutPage> {
                 onPressed: () {
                   Usuario.gooleSignout().whenComplete(() {
                     Navigator.popUntil(context, ModalRoute.withName('main'));
-                    Navigator.pushNamed(context, "login");
+                    Navigator.pushNamed(context, "main");
                   });
                 },
-                color: Colors.deepPurple,
+                color: Colors.black,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(

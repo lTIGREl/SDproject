@@ -5,30 +5,30 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: PageView(
-      scrollDirection: Axis.vertical,
-      children: <Widget>[
-        _pagina1(),
-        _pagina2(),
-      ],
+        body: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [Colors.pinkAccent, Colors.white],
+        ),
+      ),
+      child: PageView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          _pagina1(),
+          _pagina2(),
+        ],
+      ),
     ));
   }
 
   Widget _pagina1() {
     return Stack(
       children: <Widget>[
-        _colorFondo(),
         _imagenFondo(),
         _presentacion(),
       ],
-    );
-  }
-
-  Widget _colorFondo() {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Color.fromRGBO(108, 192, 218, 1.0),
     );
   }
 
@@ -36,26 +36,30 @@ class MainPage extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      child: Image(image: AssetImage('assets/googlelogin.png')),
+      child: Image(image: AssetImage('assets/foco.png')),
     );
   }
 
   Widget _presentacion() {
-    final estiloTexto = TextStyle(color: Colors.white, fontSize: 50.0);
+    final estiloTexto = TextStyle(color: Colors.black, fontSize: 50.0);
     return SafeArea(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          SizedBox(
+            height: 20.0,
+          ),
           Text(
-            '11°',
+            'Welcome to',
             style: estiloTexto,
           ),
           Text(
-            'Miércoles',
+            'Smart Solutions',
             style: estiloTexto,
           ),
           Expanded(child: Container()),
           Icon(
-            Icons.keyboard_arrow_down,
+            Icons.keyboard_arrow_up,
             size: 70.0,
             color: Colors.white,
           )

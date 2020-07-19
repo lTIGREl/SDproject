@@ -4,6 +4,7 @@ import 'package:SmartSolutions/Pages/mainpage.dart';
 import 'package:SmartSolutions/Pages/mapapage.dart';
 import 'package:SmartSolutions/Pages/opciones.dart';
 import 'package:SmartSolutions/Pages/photoupload.dart';
+import 'package:SmartSolutions/Pages/photoview.dart';
 import 'package:SmartSolutions/Pages/postPage.dart';
 import 'package:flutter/material.dart';
 import 'package:SmartSolutions/Pages/loginpage.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         'logout': (BuildContext context) => LogoutPage(),
         'upload': (BuildContext context) => PhotoUpload(),
         'map': (BuildContext context) => MapPage(),
+        'photo': (BuildContext context) => PhotoViewer(),
       },
       theme: ThemeData(
         primarySwatch: Colors.pink,

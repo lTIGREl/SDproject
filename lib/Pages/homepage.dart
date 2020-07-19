@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.blue[100], Colors.blue[400]],
+            colors: [Colors.black, Colors.pinkAccent],
           ),
         ),
         child: FutureBuilder(
@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushNamed(context, 'post', arguments: post);
       },
       child: Card(
+        color: Colors.white70,
         elevation: 10.0,
         margin: EdgeInsets.all(14.0),
         child: Container(

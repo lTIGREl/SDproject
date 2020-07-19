@@ -10,7 +10,7 @@ class PostPage extends StatefulWidget {
 class _PostPageState extends State<PostPage> {
   final titlestyle = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
 
-  final subtitlestyle = TextStyle(fontSize: 18.0, color: Colors.grey);
+  final subtitlestyle = TextStyle(fontSize: 18.0, color: Colors.black);
   int likesG;
 
   @override
@@ -18,28 +18,43 @@ class _PostPageState extends State<PostPage> {
     final Posts post = ModalRoute.of(context).settings.arguments;
     likesG = post.likes;
     return Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Image(image: NetworkImage(post.image)),
-            SizedBox(
-              height: 10.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  post.username,
-                  style: titlestyle,
-                ),
-                Image.network(post.photo, width: 50.0),
-              ],
-            ),
-            _crearDatos(post.title, post.date, post.time, likesG),
-            _crearAcciones(context, post.lat, post.long, post.idref, likesG),
-            _crearDescripcion(post.description),
-          ],
+        body: Container(
+      height: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [Colors.pinkAccent, Colors.white],
+        ),
+      ),
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              GestureDetector(
+                child: Image(image: NetworkImage(post.image)),
+                onTap: () {
+                  Navigator.pushNamed(context, 'photo', arguments: post.image);
+                },
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    post.username,
+                    style: titlestyle,
+                  ),
+                  Image.network(post.photo, width: 50.0),
+                ],
+              ),
+              _crearDatos(post.title, post.date, post.time, likesG),
+              _crearAcciones(context, post.lat, post.long, post.idref, likesG),
+              _crearDescripcion(post.description),
+            ],
+          ),
         ),
       ),
     ));

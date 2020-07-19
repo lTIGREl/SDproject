@@ -31,7 +31,7 @@ class _PhotoUploadState extends State<PhotoUpload> {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.blue[100], Colors.blue[400]],
+            colors: [Colors.pinkAccent, Colors.grey],
           ),
         ),
         child: Center(
@@ -41,7 +41,7 @@ class _PhotoUploadState extends State<PhotoUpload> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Card(
-                      elevation: 10.0,
+                      elevation: 20.0,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
