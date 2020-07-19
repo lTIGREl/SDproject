@@ -29,4 +29,12 @@ class Usuario {
       _googleSignIn.signOut();
     });
   }
+
+  static getUserState() {
+    if (user == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

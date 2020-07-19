@@ -149,10 +149,11 @@ class _PhotoUploadState extends State<PhotoUpload> {
         List loc = await obtainLocation();
         saveToDatabase(url, loc);
         Navigator.pop(context);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return HomePage();
-        }));
+        // Navigator.pushReplacement(context,
+        //     MaterialPageRoute(builder: (context) {
+        //   return HomePage();
+        // }));
+        Navigator.pushNamed(context, 'navigation');
       });
       //regreso a home
 

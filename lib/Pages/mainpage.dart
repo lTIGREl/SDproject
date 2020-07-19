@@ -7,7 +7,10 @@ class MainPage extends StatelessWidget {
     return Scaffold(
         body: PageView(
       scrollDirection: Axis.vertical,
-      children: <Widget>[_pagina1(), _pagina2()],
+      children: <Widget>[
+        _pagina1(),
+        _pagina2(),
+      ],
     ));
   }
 

@@ -34,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
       splashColor: Colors.grey,
       onPressed: () {
         Usuario.handleSignIn().whenComplete(() {
+          Navigator.pop(context);
           Navigator.pushNamed(context, "options");
         });
       },

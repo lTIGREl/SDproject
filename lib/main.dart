@@ -1,3 +1,4 @@
+import 'package:SmartSolutions/Models/usuario.dart';
 import 'package:SmartSolutions/Pages/homepage.dart';
 import 'package:SmartSolutions/Pages/logoutpage.dart';
 import 'package:SmartSolutions/Pages/mainpage.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         'map': (BuildContext context) => MapPage(),
       },
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
       ),
     );
   }
