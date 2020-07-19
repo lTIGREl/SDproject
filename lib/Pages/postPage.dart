@@ -1,3 +1,4 @@
+import 'package:SmartSolutions/Models/post.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -14,24 +15,14 @@ class _PostPageState extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List args = ModalRoute.of(context).settings.arguments;
-    final image = args[0];
-    final description = args[1];
-    final date = args[2];
-    final time = args[4];
-    final photo = args[5];
-    final username = args[6];
-    final lat = args[7];
-    final long = args[8];
-    final title = args[9];
-    likesG = args[10];
-    final idref = args[11];
+    final Posts post = ModalRoute.of(context).settings.arguments;
+    likesG = post.likes;
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Image(image: NetworkImage(image)),
+            Image(image: NetworkImage(post.image)),
             SizedBox(
               height: 10.0,
             ),
@@ -39,15 +30,15 @@ class _PostPageState extends State<PostPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  username,
+                  post.username,
                   style: titlestyle,
                 ),
-                Image.network(photo, width: 50.0),
+                Image.network(post.photo, width: 50.0),
               ],
             ),
-            _crearDatos(title, date, time, likesG),
-            _crearAcciones(context, lat, long, idref, likesG),
-            _crearDescripcion(description),
+            _crearDatos(post.title, post.date, post.time, likesG),
+            _crearAcciones(context, post.lat, post.long, post.idref, likesG),
+            _crearDescripcion(post.description),
           ],
         ),
       ),

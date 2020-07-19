@@ -1,4 +1,3 @@
-import 'package:SmartSolutions/Models/usuario.dart';
 import 'package:SmartSolutions/Pages/homepage.dart';
 import 'package:SmartSolutions/Pages/logoutpage.dart';
 import 'package:SmartSolutions/Pages/mainpage.dart';

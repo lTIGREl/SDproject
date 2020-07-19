@@ -67,7 +67,7 @@ class _LogoutPageState extends State<LogoutPage> {
               RaisedButton(
                 onPressed: () {
                   Usuario.gooleSignout().whenComplete(() {
-                    Navigator.pop(context);
+                    Navigator.popUntil(context, ModalRoute.withName('main'));
                     Navigator.pushNamed(context, "login");
                   });
                 },

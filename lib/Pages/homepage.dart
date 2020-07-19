@@ -1,4 +1,4 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:SmartSolutions/Models/postlist.dart';
 import 'package:flutter/material.dart';
 import 'package:SmartSolutions/Models/post.dart';
 
@@ -8,37 +8,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Posts> postlist = [];
-//coment
-  @override
-  void initState() {
-    super.initState();
-    DatabaseReference postRef =
-        FirebaseDatabase.instance.reference().child("Posts");
-    postRef.once().then((DataSnapshot snap) {
-      var keys = snap.value.keys;
-      var data = snap.value;
-      postlist.clear();
-
-      for (var postKey in keys) {
-        Posts post = Posts(
-            data[postKey]['image'],
-            data[postKey]['description'],
-            data[postKey]['date'],
-            data[postKey]['time'],
-            data[postKey]['photo'],
-            data[postKey]['username'],
-            data[postKey]['lat'],
-            data[postKey]['long'],
-            data[postKey]['title'],
-            data[postKey]['likes'],
-            data[postKey]['idref']);
-        postlist.add(post);
-      }
-      setState(() {});
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,58 +22,31 @@ class _HomePageState extends State<HomePage> {
             colors: [Colors.blue[100], Colors.blue[400]],
           ),
         ),
-        child: postlist.length == 0
-            ? Text("No data found")
-            : ListView.builder(
-                itemCount: postlist.length,
-                itemBuilder: (_, index) {
-                  return postUI(
-                      postlist[index].image,
-                      postlist[index].description,
-                      postlist[index].date,
-                      postlist[index].time,
-                      postlist[index].photo,
-                      postlist[index].username,
-                      postlist[index].lat,
-                      postlist[index].long,
-                      postlist[index].title,
-                      postlist[index].likes,
-                      postlist[index].idref);
-                },
-              ),
+        child: FutureBuilder(
+            future: ListPosts().armarLista(),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<Posts>> snapshot) {
+              if (snapshot.hasData) {
+                return (ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (_, index) {
+                    return postUI(snapshot.data[index]);
+                  },
+                ));
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
       ), //posts
     );
   }
 
-  Widget postUI(
-      String image,
-      String description,
-      String date,
-      String time,
-      String photo,
-      String username,
-      String lat,
-      String long,
-      String title,
-      int likes,
-      String idref) {
+  Widget postUI(Posts post) {
     return GestureDetector(
       onTap: () {
-        List lista = [
-          image,
-          description,
-          date,
-          date,
-          time,
-          photo,
-          username,
-          lat,
-          long,
-          title,
-          likes,
-          idref
-        ];
-        Navigator.pushNamed(context, 'post', arguments: lista);
+        Navigator.pushNamed(context, 'post', arguments: post);
       },
       child: Card(
         elevation: 10.0,
@@ -118,12 +60,12 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    date,
+                    post.date,
                     style: Theme.of(context).textTheme.subtitle1,
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    username,
+                    post.username,
                     style: Theme.of(context).textTheme.subtitle1,
                     textAlign: TextAlign.center,
                   ),
@@ -136,12 +78,12 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    time,
+                    post.time,
                     style: Theme.of(context).textTheme.subtitle1,
                     textAlign: TextAlign.center,
                   ),
                   Image.network(
-                    photo,
+                    post.photo,
                     width: 50.0,
                   ),
                 ],
@@ -149,12 +91,12 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 10.0,
               ),
-              Image.network(image, fit: BoxFit.cover),
+              Image.network(post.image, fit: BoxFit.cover),
               SizedBox(
                 height: 10.0,
               ),
               Text(
-                title,
+                post.title,
                 style: Theme.of(context).textTheme.subtitle1,
                 textAlign: TextAlign.center,
               ),
