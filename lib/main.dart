@@ -1,7 +1,8 @@
+import 'package:SmartSolutions/Pages/comentpage.dart';
 import 'package:SmartSolutions/Pages/homepage.dart';
 import 'package:SmartSolutions/Pages/logoutpage.dart';
 import 'package:SmartSolutions/Pages/mainpage.dart';
-import 'package:SmartSolutions/Pages/mapapage.dart';
+import 'package:SmartSolutions/Models/mapapage.dart';
 import 'package:SmartSolutions/Pages/opciones.dart';
 import 'package:SmartSolutions/Pages/photoupload.dart';
 import 'package:SmartSolutions/Pages/photoview.dart';
@@ -28,9 +29,10 @@ class MyApp extends StatelessWidget {
         'upload': (BuildContext context) => PhotoUpload(),
         'map': (BuildContext context) => MapPage(),
         'photo': (BuildContext context) => PhotoViewer(),
+        'comments': (BuildContext context) => ComentPage()
       },
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.indigo,
       ),
     );
   }

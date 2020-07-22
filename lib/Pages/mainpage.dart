@@ -10,7 +10,7 @@ class MainPage extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [Colors.pinkAccent, Colors.white],
+          colors: [Colors.white, Colors.black],
         ),
       ),
       child: PageView(
@@ -50,7 +50,7 @@ class MainPage extends StatelessWidget {
             height: 20.0,
           ),
           Text(
-            'Welcome to',
+            'Bienvenidos a',
             style: estiloTexto,
           ),
           Text(

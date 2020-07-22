@@ -1,3 +1,4 @@
+import 'package:SmartSolutions/Models/configuraciones.dart';
 import 'package:SmartSolutions/Models/post.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ class PostPage extends StatefulWidget {
 }
 
 class _PostPageState extends State<PostPage> {
+  var colorBoton = Configuraciones.colorA;
   final titlestyle = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
 
   final subtitlestyle = TextStyle(fontSize: 18.0, color: Colors.black);
@@ -24,7 +26,7 @@ class _PostPageState extends State<PostPage> {
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [Colors.pinkAccent, Colors.white],
+          colors: [Configuraciones.colorA, Configuraciones.colorB],
         ),
       ),
       child: SafeArea(
@@ -104,44 +106,66 @@ class _PostPageState extends State<PostPage> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         _columnaBotones(
-            context, Icons.location_on, 'Location', lat, long, 'map', '', 0),
+            context, Icons.location_on, 'Location', lat, long, 'map'),
         _columnaBotones(
-            context, Icons.insert_comment, 'Comment', lat, long, 'map', '', 0),
-        _columnaBotones(
-            context, Icons.plus_one, 'Like', lat, long, 'like', idref, likes)
+            context, Icons.insert_comment, 'Comment', lat, long, 'comments'),
+        _botonLike(context, Icons.plus_one, 'Like', 'like', idref, likes)
       ],
     );
   }
 
   Widget _columnaBotones(BuildContext context, IconData icon, String detail,
-      String lat, String long, String dir, String idref, int likes) {
+      String lat, String long, String dir) {
     return GestureDetector(
       onTap: () {
         if (dir == 'map') {
           Navigator.pushNamed(context, dir, arguments: [lat, long]);
-        } else {
-          if (dir == 'like') {
-            FirebaseDatabase.instance
-                .reference()
-                .child("Posts")
-                .child(idref)
-                .update({"likes": likes + 1});
-            likesG += 1;
-          }
+        }
+        if (dir == 'comments') {
+          Navigator.pushNamed(context, dir);
         }
       },
       child: Column(
         children: <Widget>[
           Icon(
             icon,
-            color: Colors.blue,
+            color: colorBoton,
           ),
           SizedBox(
             height: 7.0,
           ),
           Text(
             detail,
-            style: TextStyle(fontSize: 15.0, color: Colors.blue),
+            style: TextStyle(fontSize: 15.0, color: colorBoton),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _botonLike(BuildContext context, IconData icon, String detail,
+      String dir, String idref, int likes) {
+    return GestureDetector(
+      onTap: () {
+        FirebaseDatabase.instance
+            .reference()
+            .child("Posts")
+            .child(idref)
+            .update({"likes": likes + 1});
+        likesG += 1;
+      },
+      child: Column(
+        children: <Widget>[
+          Icon(
+            icon,
+            color: colorBoton,
+          ),
+          SizedBox(
+            height: 7.0,
+          ),
+          Text(
+            detail,
+            style: TextStyle(fontSize: 15.0, color: colorBoton),
           )
         ],
       ),

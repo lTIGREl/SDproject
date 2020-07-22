@@ -1,3 +1,4 @@
+import 'package:SmartSolutions/Models/configuraciones.dart';
 import 'package:SmartSolutions/Models/obtainlocation.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -22,16 +23,12 @@ class _PhotoUploadState extends State<PhotoUpload> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Request editor"),
-        centerTitle: true,
-      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.pinkAccent, Colors.grey],
+            colors: [Configuraciones.colorA, Configuraciones.colorB],
           ),
         ),
         child: Center(
@@ -47,15 +44,15 @@ class _PhotoUploadState extends State<PhotoUpload> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text("Select an image related to your problem"),
+                            Text("Elige una portada para tu publicación"),
                             SizedBox(
                               height: 15.0,
                             ),
-                            Text("Give us a description about your problem"),
+                            Text("Danos una descripción sobre tu problema"),
                             SizedBox(
                               height: 15.0,
                             ),
-                            Text("Upload your post"),
+                            Text("Sube tu publicación"),
                           ],
                         ),
                       ),
@@ -66,8 +63,9 @@ class _PhotoUploadState extends State<PhotoUpload> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Configuraciones.colorA,
         onPressed: getImage,
-        tooltip: "Add image",
+        tooltip: "Añadir imagen",
         child: Icon(Icons.add_a_photo),
       ),
     );
@@ -90,9 +88,9 @@ class _PhotoUploadState extends State<PhotoUpload> {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  decoration: InputDecoration(labelText: "Title"),
+                  decoration: InputDecoration(labelText: "Título"),
                   validator: (val) {
-                    return val.isEmpty ? 'Title required' : null;
+                    return val.isEmpty ? 'Título requerido' : null;
                   },
                   onSaved: (val) {
                     return _title = val;
@@ -107,9 +105,9 @@ class _PhotoUploadState extends State<PhotoUpload> {
                   height: 15.0,
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: "Description"),
+                  decoration: InputDecoration(labelText: "Descripción"),
                   validator: (value) {
-                    return value.isEmpty ? "Required description" : null;
+                    return value.isEmpty ? "Descripción requerida" : null;
                   },
                   onSaved: (value) {
                     return _description = value;
@@ -121,8 +119,8 @@ class _PhotoUploadState extends State<PhotoUpload> {
                 RaisedButton(
                   elevation: 10.0,
                   child: Text("Añadir post"),
-                  textColor: Colors.white,
-                  color: Colors.lightBlueAccent,
+                  textColor: Configuraciones.colorB,
+                  color: Configuraciones.colorA,
                   onPressed: subirImagen,
                 )
               ],

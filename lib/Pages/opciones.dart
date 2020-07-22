@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:SmartSolutions/Models/configuraciones.dart';
 import 'package:flutter/material.dart';
 
 class OptionPage extends StatelessWidget {
@@ -28,7 +29,7 @@ class OptionPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "Settings",
+              "Menu de opciones",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 30.0,
@@ -37,7 +38,7 @@ class OptionPage extends StatelessWidget {
             SizedBox(
               height: 10.0,
             ),
-            Text("Select one",
+            Text("Elige una",
                 style: TextStyle(color: Colors.white, fontSize: 20.0))
           ],
         ),
@@ -51,7 +52,7 @@ class OptionPage extends StatelessWidget {
       height: double.infinity,
       decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [Colors.black, Colors.purple],
+              colors: [Configuraciones.colorA, Configuraciones.colorB],
               begin: FractionalOffset(0.0, 0.5),
               end: FractionalOffset(0.0, 1.0))),
     );
@@ -61,8 +62,9 @@ class OptionPage extends StatelessWidget {
         height: 330.0,
         width: 330.0,
         decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [Colors.purple, Colors.white]),
-            color: Colors.pink,
+            gradient: LinearGradient(
+                colors: [Configuraciones.colorA, Configuraciones.colorB]),
+            color: Colors.black,
             borderRadius: BorderRadius.circular(80.0)),
       ),
     );
@@ -81,23 +83,30 @@ class OptionPage extends StatelessWidget {
     return Table(
       children: [
         TableRow(children: [
-          _crearBoton(context, Icons.navigation, "Navigate", "navigation"),
           _crearBoton(
-              context, Icons.supervised_user_circle, "Profile", "logout")
+              context, Icons.text_fields, "Publicaciones", "navigation", null),
+          _crearBoton(
+              context, Icons.supervised_user_circle, "Perfil", "logout", null)
         ]),
         TableRow(children: [
-          _crearBoton(context, Icons.edit, "Edit posts", "map"),
-          _crearBoton(context, Icons.file_upload, "Add post", "upload")
+          _crearBoton(
+              context, Icons.assistant, "Populares", "navigation", "populares"),
+          _crearBoton(context, Icons.file_upload, "Añadir post", "upload", null)
+        ]),
+        TableRow(children: [
+          _crearBoton(
+              context, Icons.edit, "Mis posts", "navigation", "misposts"),
+          SizedBox()
         ])
       ],
     );
   }
 
-  Widget _crearBoton(
-      BuildContext context, IconData icono, String option, String ruta) {
+  Widget _crearBoton(BuildContext context, IconData icono, String option,
+      String ruta, String args) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, ruta);
+        Navigator.pushNamed(context, ruta, arguments: args);
       },
       child: Container(
         padding: EdgeInsets.all(30),
@@ -109,18 +118,18 @@ class OptionPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             CircleAvatar(
-              backgroundColor: Colors.pinkAccent,
+              backgroundColor: Configuraciones.colorB,
               radius: 30.0,
               child: Icon(
                 icono,
-                color: Colors.white,
+                color: Configuraciones.colorA,
                 size: 30.0,
               ),
             ),
             SizedBox(
               height: 15.0,
             ),
-            Text(option, style: TextStyle(color: Colors.pinkAccent))
+            Text(option, style: TextStyle(color: Configuraciones.colorB))
           ],
         ),
       ),

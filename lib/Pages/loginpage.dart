@@ -15,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [Colors.white, Colors.pinkAccent],
+          colors: [Colors.black, Colors.white],
         ),
       ),
       child: Column(
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                'Sign in with Google',
+                'Iniciar sesión con Google',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,

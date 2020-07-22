@@ -1,3 +1,4 @@
+import 'package:SmartSolutions/Models/configuraciones.dart';
 import 'package:SmartSolutions/Models/postlist.dart';
 import 'package:flutter/material.dart';
 import 'package:SmartSolutions/Models/post.dart';
@@ -8,22 +9,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String opcion;
   @override
   Widget build(BuildContext context) {
+    String args = ModalRoute.of(context).settings.arguments;
+    opcion = args;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Smart Solutions"),
-      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.black, Colors.pinkAccent],
+            colors: [Configuraciones.colorA, Configuraciones.colorB],
           ),
         ),
         child: FutureBuilder(
-            future: ListPosts().armarLista(),
+            future: opcion == "populares"
+                ? ListPosts().armarListaPopulares()
+                : opcion == "misposts"
+                    ? ListPosts().armarListaMisPosts()
+                    : ListPosts().armarLista(),
             builder:
                 (BuildContext context, AsyncSnapshot<List<Posts>> snapshot) {
               if (snapshot.hasData) {

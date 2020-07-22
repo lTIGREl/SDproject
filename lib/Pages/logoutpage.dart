@@ -1,3 +1,4 @@
+import 'package:SmartSolutions/Models/configuraciones.dart';
 import 'package:flutter/material.dart';
 import 'package:SmartSolutions/Models/usuario.dart';
 
@@ -15,7 +16,7 @@ class _LogoutPageState extends State<LogoutPage> {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.pinkAccent, Colors.grey],
+            colors: [Configuraciones.colorA, Configuraciones.colorB],
           ),
         ),
         child: Center(
