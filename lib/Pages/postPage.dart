@@ -106,23 +106,23 @@ class _PostPageState extends State<PostPage> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         _columnaBotones(
-            context, Icons.location_on, 'Location', lat, long, 'map'),
-        _columnaBotones(
-            context, Icons.insert_comment, 'Comment', lat, long, 'comments'),
+            context, Icons.location_on, 'Location', lat, long, 'map', null),
+        _columnaBotones(context, Icons.insert_comment, 'Comment', lat, long,
+            'comments', idref),
         _botonLike(context, Icons.plus_one, 'Like', 'like', idref, likes)
       ],
     );
   }
 
   Widget _columnaBotones(BuildContext context, IconData icon, String detail,
-      String lat, String long, String dir) {
+      String lat, String long, String dir, String id) {
     return GestureDetector(
       onTap: () {
         if (dir == 'map') {
           Navigator.pushNamed(context, dir, arguments: [lat, long]);
         }
         if (dir == 'comments') {
-          Navigator.pushNamed(context, dir);
+          Navigator.pushNamed(context, dir, arguments: id);
         }
       },
       child: Column(
@@ -153,6 +153,7 @@ class _PostPageState extends State<PostPage> {
             .child(idref)
             .update({"likes": likes + 1});
         likesG += 1;
+        setState(() {});
       },
       child: Column(
         children: <Widget>[

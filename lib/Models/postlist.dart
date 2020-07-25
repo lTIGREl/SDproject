@@ -1,8 +1,32 @@
+import 'package:SmartSolutions/Models/comentarios.dart';
 import 'package:SmartSolutions/Models/post.dart';
 import 'package:SmartSolutions/Models/usuario.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class ListPosts {
+  Future<List<Comments>> comentarios(String id) async {
+    List<Comments> comentlist = [];
+    DatabaseReference postRef = FirebaseDatabase.instance
+        .reference()
+        .child("Posts")
+        .child(id)
+        .child("comments");
+    await postRef.once().then((DataSnapshot snap) {
+      var keys = snap.value.keys;
+      var data = snap.value;
+      comentlist.clear();
+      for (var postKey in keys) {
+        Comments comment = Comments(
+          data[postKey]['description'],
+          data[postKey]['photo'],
+          data[postKey]['username'],
+        );
+        comentlist.add(comment);
+      }
+    });
+    return comentlist;
+  }
+
   Future<List<Posts>> armarLista() async {
     List<Posts> postlist = [];
     DatabaseReference postRef =

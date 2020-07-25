@@ -183,7 +183,8 @@ class _PhotoUploadState extends State<PhotoUpload> {
       "long": long,
       'title': _title,
       'likes': 0,
-      'idref': idref.key
+      'idref': idref.key,
+      'comments': ''
     };
     idref.set(data);
   }
