@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-        Usuario.handleSignIn().whenComplete(() {
+        Usuario.handleSignIn().then((err) {
           Navigator.pop(context);
           Navigator.pushNamed(context, "options");
         });

@@ -40,8 +40,18 @@ class _HomePageState extends State<HomePage> {
                 ));
               } else {
                 return Center(
-                  child: CircularProgressIndicator(),
-                );
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Cargando registros",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(height: 10),
+                    CircularProgressIndicator(),
+                  ],
+                ));
               }
             }),
       ), //posts

@@ -1,3 +1,4 @@
+import 'package:SmartSolutions/Models/configuraciones.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
@@ -22,7 +23,7 @@ class _MapPageState extends State<MapPage> {
                     LatLng(double.parse(args[0]), double.parse(args[1])), 15.0);
               })
         ],
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: Configuraciones.colorA,
         title: Text("Location"),
       ),
       body: Center(

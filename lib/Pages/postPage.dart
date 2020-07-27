@@ -1,5 +1,6 @@
 import 'package:SmartSolutions/Models/configuraciones.dart';
 import 'package:SmartSolutions/Models/post.dart';
+import 'package:SmartSolutions/Models/postlist.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,8 @@ class PostPage extends StatefulWidget {
 class _PostPageState extends State<PostPage> {
   var colorBoton = Configuraciones.colorA;
   final titlestyle = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
+  var colorLike = Configuraciones.colorA;
+  bool liked = false;
 
   final subtitlestyle = TextStyle(fontSize: 18.0, color: Colors.black);
   int likesG;
@@ -18,7 +21,6 @@ class _PostPageState extends State<PostPage> {
   @override
   Widget build(BuildContext context) {
     final Posts post = ModalRoute.of(context).settings.arguments;
-    likesG = post.likes;
     return Scaffold(
         body: Container(
       height: double.infinity,
@@ -52,8 +54,8 @@ class _PostPageState extends State<PostPage> {
                   Image.network(post.photo, width: 50.0),
                 ],
               ),
-              _crearDatos(post.title, post.date, post.time, likesG),
-              _crearAcciones(context, post.lat, post.long, post.idref, likesG),
+              _crearDatos(post.title, post.date, post.time, post.idref),
+              _crearAcciones(context, post.lat, post.long, post.idref),
               _crearDescripcion(post.description),
             ],
           ),
@@ -62,7 +64,7 @@ class _PostPageState extends State<PostPage> {
     ));
   }
 
-  Widget _crearDatos(String title, String date, String time, int likes) {
+  Widget _crearDatos(String title, String date, String time, String idref) {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
@@ -90,10 +92,18 @@ class _PostPageState extends State<PostPage> {
               Icons.star,
               color: Colors.red,
             ),
-            Text(
-              likes.toString(),
-              style: TextStyle(fontSize: 20.0),
-            )
+            FutureBuilder(
+                future: actualizarLikes(idref),
+                builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      snapshot.data.toString(),
+                      style: TextStyle(fontSize: 20.0),
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                })
           ],
         ),
       ),
@@ -101,7 +111,7 @@ class _PostPageState extends State<PostPage> {
   }
 
   Widget _crearAcciones(
-      BuildContext context, String lat, String long, String idref, int likes) {
+      BuildContext context, String lat, String long, String idref) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -109,7 +119,7 @@ class _PostPageState extends State<PostPage> {
             context, Icons.location_on, 'Location', lat, long, 'map', null),
         _columnaBotones(context, Icons.insert_comment, 'Comment', lat, long,
             'comments', idref),
-        _botonLike(context, Icons.plus_one, 'Like', 'like', idref, likes)
+        _likeButton(idref)
       ],
     );
   }
@@ -143,34 +153,52 @@ class _PostPageState extends State<PostPage> {
     );
   }
 
-  Widget _botonLike(BuildContext context, IconData icon, String detail,
-      String dir, String idref, int likes) {
-    return GestureDetector(
-      onTap: () {
-        FirebaseDatabase.instance
-            .reference()
-            .child("Posts")
-            .child(idref)
-            .update({"likes": likes + 1});
-        likesG += 1;
-        setState(() {});
-      },
-      child: Column(
-        children: <Widget>[
-          Icon(
-            icon,
-            color: colorBoton,
-          ),
-          SizedBox(
-            height: 7.0,
-          ),
-          Text(
-            detail,
-            style: TextStyle(fontSize: 15.0, color: colorBoton),
+  Widget _likeButton(String idref) {
+    return liked == false
+        ? GestureDetector(
+            onTap: () {
+              colorLike = Colors.yellow;
+              FirebaseDatabase.instance
+                  .reference()
+                  .child("Posts")
+                  .child(idref)
+                  .update({"likes": likesG + 1}).then((value) {
+                setState(() {
+                  liked = true;
+                });
+              });
+            },
+            child: Column(
+              children: [
+                Icon(
+                  Icons.plus_one,
+                  color: colorLike,
+                ),
+                SizedBox(
+                  height: 7.0,
+                ),
+                Text(
+                  "Like",
+                  style: TextStyle(fontSize: 15.0, color: colorLike),
+                )
+              ],
+            ),
           )
-        ],
-      ),
-    );
+        : Column(
+            children: [
+              Icon(
+                Icons.plus_one,
+                color: colorLike,
+              ),
+              SizedBox(
+                height: 7.0,
+              ),
+              Text(
+                "Like",
+                style: TextStyle(fontSize: 15.0, color: colorLike),
+              )
+            ],
+          );
   }
 
   Widget _crearDescripcion(String description) {
@@ -183,5 +211,11 @@ class _PostPageState extends State<PostPage> {
         ),
       ),
     );
+  }
+
+  Future<int> actualizarLikes(String idref) async {
+    likesG = await ListPosts.obtenerLikes(idref);
+    int like = likesG;
+    return like;
   }
 }
