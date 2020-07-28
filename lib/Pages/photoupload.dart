@@ -16,6 +16,7 @@ class PhotoUpload extends StatefulWidget {
 
 class _PhotoUploadState extends State<PhotoUpload> {
   File sampleImage;
+  bool enableButton = true;
   final formKey = GlobalKey<FormState>();
   String _title;
   String _description;
@@ -152,8 +153,7 @@ class _PhotoUploadState extends State<PhotoUpload> {
       var imageUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
       url = imageUrl.toString();
       //guardar el post en firebase database: realtime
-      obtainLocation().whenComplete(() async {
-        List loc = await obtainLocation();
+      obtainLocation().then((loc) {
         saveToDatabase(url, loc);
         //regreso a home
         Navigator.pop(context);
@@ -184,7 +184,6 @@ class _PhotoUploadState extends State<PhotoUpload> {
       'title': _title,
       'likes': 0,
       'idref': idref.key,
-      'comments': ''
     };
     idref.set(data);
   }

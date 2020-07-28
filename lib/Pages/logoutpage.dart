@@ -33,7 +33,7 @@ class _LogoutPageState extends State<LogoutPage> {
               ),
               SizedBox(height: 40),
               Text(
-                'NAME',
+                'Nombre',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -49,7 +49,7 @@ class _LogoutPageState extends State<LogoutPage> {
               ),
               SizedBox(height: 20),
               Text(
-                'EMAIL',
+                'Email',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class _LogoutPageState extends State<LogoutPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Sign Out',
+                    'Salir',
                     style: TextStyle(fontSize: 25, color: Colors.white),
                   ),
                 ),

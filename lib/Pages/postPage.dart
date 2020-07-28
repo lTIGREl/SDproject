@@ -1,6 +1,7 @@
 import 'package:SmartSolutions/Models/configuraciones.dart';
 import 'package:SmartSolutions/Models/post.dart';
 import 'package:SmartSolutions/Models/postlist.dart';
+import 'package:SmartSolutions/Models/usuario.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,6 @@ class PostPage extends StatefulWidget {
 class _PostPageState extends State<PostPage> {
   var colorBoton = Configuraciones.colorA;
   final titlestyle = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
-  var colorLike = Configuraciones.colorA;
   bool liked = false;
 
   final subtitlestyle = TextStyle(fontSize: 18.0, color: Colors.black);
@@ -55,7 +55,8 @@ class _PostPageState extends State<PostPage> {
                 ],
               ),
               _crearDatos(post.title, post.date, post.time, post.idref),
-              _crearAcciones(context, post.lat, post.long, post.idref),
+              _crearAcciones(
+                  context, post.lat, post.long, post.idref, post.username),
               _crearDescripcion(post.description),
             ],
           ),
@@ -110,8 +111,8 @@ class _PostPageState extends State<PostPage> {
     );
   }
 
-  Widget _crearAcciones(
-      BuildContext context, String lat, String long, String idref) {
+  Widget _crearAcciones(BuildContext context, String lat, String long,
+      String idref, String username) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -119,7 +120,22 @@ class _PostPageState extends State<PostPage> {
             context, Icons.location_on, 'Location', lat, long, 'map', null),
         _columnaBotones(context, Icons.insert_comment, 'Comment', lat, long,
             'comments', idref),
-        _likeButton(idref)
+        FutureBuilder(
+            future: ListPosts.userLiked(idref),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.hasData) {
+                return snapshot.data == false
+                    ? _likeButton(idref)
+                    : _likeButtonFalse();
+              } else {
+                return _likeButton(idref);
+              }
+            }),
+        username == Usuario.user.displayName
+            ? _botonEliminar(idref)
+            : SizedBox(
+                width: 0,
+              )
       ],
     );
   }
@@ -153,52 +169,59 @@ class _PostPageState extends State<PostPage> {
     );
   }
 
+  Widget _likeButtonFalse() {
+    return Column(
+      children: [
+        Icon(
+          Icons.plus_one,
+          color: Colors.yellow,
+        ),
+        SizedBox(
+          height: 7.0,
+        ),
+        Text(
+          "Like",
+          style: TextStyle(fontSize: 15.0, color: Colors.yellow),
+        )
+      ],
+    );
+  }
+
   Widget _likeButton(String idref) {
-    return liked == false
-        ? GestureDetector(
-            onTap: () {
-              colorLike = Colors.yellow;
-              FirebaseDatabase.instance
-                  .reference()
-                  .child("Posts")
-                  .child(idref)
-                  .update({"likes": likesG + 1}).then((value) {
-                setState(() {
-                  liked = true;
-                });
-              });
-            },
-            child: Column(
-              children: [
-                Icon(
-                  Icons.plus_one,
-                  color: colorLike,
-                ),
-                SizedBox(
-                  height: 7.0,
-                ),
-                Text(
-                  "Like",
-                  style: TextStyle(fontSize: 15.0, color: colorLike),
-                )
-              ],
-            ),
+    return GestureDetector(
+      onTap: () {
+        FirebaseDatabase.instance
+            .reference()
+            .child("Posts")
+            .child(idref)
+            .child("userLiked")
+            .push()
+            .set({"username": Usuario.user.displayName}).then((value) {
+          FirebaseDatabase.instance
+              .reference()
+              .child("Posts")
+              .child(idref)
+              .update({"likes": likesG + 1}).then((value) {
+            setState(() {});
+          });
+        });
+      },
+      child: Column(
+        children: [
+          Icon(
+            Icons.plus_one,
+            color: colorBoton,
+          ),
+          SizedBox(
+            height: 7.0,
+          ),
+          Text(
+            "Like",
+            style: TextStyle(fontSize: 15.0, color: colorBoton),
           )
-        : Column(
-            children: [
-              Icon(
-                Icons.plus_one,
-                color: colorLike,
-              ),
-              SizedBox(
-                height: 7.0,
-              ),
-              Text(
-                "Like",
-                style: TextStyle(fontSize: 15.0, color: colorLike),
-              )
-            ],
-          );
+        ],
+      ),
+    );
   }
 
   Widget _crearDescripcion(String description) {
@@ -217,5 +240,29 @@ class _PostPageState extends State<PostPage> {
     likesG = await ListPosts.obtenerLikes(idref);
     int like = likesG;
     return like;
+  }
+
+  Widget _botonEliminar(String idref) {
+    return GestureDetector(
+      onTap: () {
+        ListPosts.removePost(idref);
+        Navigator.pop(context);
+      },
+      child: Column(
+        children: [
+          Icon(
+            Icons.delete_forever,
+            color: colorBoton,
+          ),
+          SizedBox(
+            height: 7.0,
+          ),
+          Text(
+            "Eliminar",
+            style: TextStyle(fontSize: 15.0, color: colorBoton),
+          )
+        ],
+      ),
+    );
   }
 }

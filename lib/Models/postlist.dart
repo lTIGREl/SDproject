@@ -159,4 +159,31 @@ class ListPosts {
     });
     return likesG;
   }
+
+  static Future<bool> userLiked(String idref) async {
+    bool bul = false;
+    DatabaseReference postRef = FirebaseDatabase.instance
+        .reference()
+        .child("Posts")
+        .child(idref)
+        .child("userLiked");
+    try {
+      await postRef.once().then((DataSnapshot snap) {
+        var keys = snap.value.keys;
+        var data = snap.value;
+        for (var postkey in keys) {
+          if (data[postkey]['username'] == Usuario.user.displayName) {
+            bul = true;
+          }
+        }
+      });
+    } catch (e) {
+      return null;
+    }
+    return bul;
+  }
+
+  static removePost(String idref) {
+    FirebaseDatabase.instance.reference().child("Posts").child(idref).remove();
+  }
 }

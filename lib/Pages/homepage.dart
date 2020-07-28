@@ -15,6 +15,14 @@ class _HomePageState extends State<HomePage> {
     String args = ModalRoute.of(context).settings.arguments;
     opcion = args;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Configuraciones.colorA,
+        onPressed: () {
+          setState(() {});
+        },
+        tooltip: "Recargar",
+        child: Icon(Icons.refresh),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
